@@ -4,7 +4,7 @@ import time
 import numpy as np
 
 start = time.time()
-A_B_C = pd.read_csv("ABC_공통완전결합.csv",assume_missing=True)
+A_B_C = pd.read_csv("ABC_공통완전결합.csv")
 
 A = pd.read_csv("A_id_attr.csv")
 B = pd.read_csv("B_id_attr.csv")
@@ -16,13 +16,13 @@ A_B_C['C_id'] = A_B_C['C_id'].fillna(0).astype('int64')
 
 
 #1 
-A_Key = pd.merge(A, A_B_C, left_on="id", right_on="A_id", how='inner')
+A_Key = pd.merge(A, A_B_C, left_on="id", right_on="A_id", how='outer')
 
 #2 
-B_Key = pd.merge(B, A_B_C, left_on="id", right_on="B_id", how='inner')
+B_Key = pd.merge(B, A_B_C, left_on="id", right_on="B_id", how='outer')
 
 #3 
-C_Key = pd.merge(C, A_B_C, left_on="id", right_on="C_id", how='inner')
+C_Key = pd.merge(C, A_B_C, left_on="id", right_on="C_id", how='outer')
 
 #4 
 A_B_Key = pd.merge(A_Key, B_Key, left_on="B_id", right_on="id", how='outer')

@@ -10,19 +10,20 @@ A = dd.read_csv("A_id_attr.csv")
 B = dd.read_csv("B_id_attr.csv")
 C = dd.read_csv("C_id_attr.csv")
 
+A_B_C['A_id'] = A_B_C['A_id'].fillna(0).astype('int64')
 A_B_C['B_id'] = A_B_C['B_id'].fillna(0).astype('int64')
 A_B_C['C_id'] = A_B_C['C_id'].fillna(0).astype('int64')
 
 
 
 #1 
-A_Key = dd.merge(A, A_B_C, left_on="id", right_on="A_id", how='inner')
+A_Key = dd.merge(A, A_B_C, left_on="id", right_on="A_id", how='outer')
 
 #2 
-B_Key = dd.merge(B, A_B_C, left_on="id", right_on="B_id", how='inner')
+B_Key = dd.merge(B, A_B_C, left_on="id", right_on="B_id", how='outer')
 
 #3 
-C_Key = dd.merge(C, A_B_C, left_on="id", right_on="C_id", how='inner')
+C_Key = dd.merge(C, A_B_C, left_on="id", right_on="C_id", how='outer')
 
 #4 
 A_B_Key = dd.merge(A_Key, B_Key, left_on="B_id", right_on="id", how='outer')

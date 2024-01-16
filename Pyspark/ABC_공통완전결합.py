@@ -28,14 +28,14 @@ result_C = result_C.withColumnRenamed("A_id", "A_id_c").withColumnRenamed("B_id"
 final_result = result_A.join(result_B, result_A . B_id_a == result_B . id_b , how="full")
 final_result = final_result.join(result_C,  final_result.C_id_a == result_C.id_c , how="full")
 final_result= final_result.filter(
-   (col("A_id_a").isNotNull()) & (col("B_id_b").isNotNull()) |
-   (col("B_id_b").isNotNull()) & (col("C_id_c").isNotNull()) |
-   (col("A_id_a").isNotNull()) & (col("C_id_c").isNotNull()) |
-   ((col("A_id_a").isNotNull()) & (col("B_id_b").isNotNull()) & (col("C_id_c").isNotNull()))
+   ((col("A_id_a").isNotNull()) & (col("B_id_b").isNotNull())) |
+   ((col("B_id_b").isNotNull()) & (col("C_id_c").isNotNull()) & col("A_id_a").isNull()) |
+   ((col("A_id_a").isNotNull()) & (col("C_id_c").isNotNull()) & col("B_id_b").isNull())
 )
 
 # 결과 확인
 final_result.show(truncate=False)
+
 
 column_count = len(final_result.columns)
 print(f"Row count: {final_result.count()}")
